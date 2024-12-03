@@ -1,20 +1,20 @@
 use std::fs::read_to_string;
 
-fn main(){
-    let problem_content : Vec<String> = read_to_string("../input.txt")
+fn main() {
+    let problem_content: Vec<String> = read_to_string("../input.txt")
         .unwrap()
         .lines()
         .map(String::from)
         .collect();
 
-    let mut problem : [Vec<u32>; 2] = [Vec::new(), Vec::new()];
-    for i in &problem_content{
-        let temp_vec : Vec<u32> = i
+    let mut problem: [Vec<i32>; 2] = [Vec::new(), Vec::new()];
+    for i in &problem_content {
+        let temp_vec: Vec<i32> = i
             .split("   ")
             .collect::<Vec<_>>()
-                .iter()
-                .map(|x| x.parse().unwrap())
-                .collect();
+            .iter()
+            .map(|x| x.parse().unwrap())
+            .collect();
 
         problem[0].push(temp_vec[0]);
         problem[1].push(temp_vec[1]);
@@ -23,17 +23,14 @@ fn main(){
     std::mem::drop(problem_content);
 
     // sorting, duh...
-    for i in &mut problem{
-        i.sort();
-    }
+    problem[0].sort();
+    problem[1].sort();
 
-    // calculating distances
     let mut distances: Vec<i32> = Vec::new();
     for i in 0..problem[0].len() {
-        distances.push((problem[1][i] as i32 - problem[0][i] as i32).abs());
+        distances.push((problem[1][i] - problem[0][i]).abs());
     }
 
-    // printing sum of distances
     let total_distance: i32 = distances.iter().sum();
-    println!("Total distance: {}", total_distance);
+    println!("{}", total_distance);
 }
